@@ -16,8 +16,8 @@
 ***
 
 ## 【Remarks】
-- Version for following the `Chainlink` smart contract
-  - Solidity (Solc): v0.6.11
+- Version for following the `Chainlink (v0.7)` smart contract
+  - Solidity (Solc): v0.7.6
   - Truffle: v5.1.60
   - web3.js: v1.2.9
   - openzeppelin-solidity: v3.2.0
@@ -71,4 +71,6 @@ $ ganache-cli -d --fork https://kovan.infura.io/v3/{YOUR INFURA KEY OF KOVAN}
 
 ## 【References】
 - Chainlink
+  - @chainlink/contracts (v0.1.6) => include solidity v0.7 based package
+    https://www.npmjs.com/package/@chainlink/contracts
 
