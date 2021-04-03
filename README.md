@@ -16,8 +16,8 @@
 ***
 
 ## 【Remarks】
-- Version for following the `Chainlink (v0.7)` smart contract
-  - Solidity (Solc): v0.7.6
+- Version for following the `Chainlink (v0.6)` smart contract
+  - Solidity (Solc): v0.6.12
   - Truffle: v5.1.60
   - web3.js: v1.2.9
   - openzeppelin-solidity: v3.2.0
