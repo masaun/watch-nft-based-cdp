@@ -1,14 +1,16 @@
-pragma solidity 0.7.6;
+pragma solidity 0.6.12;
 
-import "./chainlink/v0.7/ChainlinkClient.sol";  /// [Note]: How to declaration should be simple
-//import "@chainlink/contracts/src/v0.7/ChainlinkClient.sol";
+/// [Note]: How to declaration should be simple
+/// [Note]: Use solidity v0.6 for chainlink
+import "./chainlink/v0.6/ChainlinkClient.sol";
+
 
 contract WatchSignalsLuxuryWatchPriceOracle is ChainlinkClient {
   
     uint256 oraclePayment;
     uint256 public price;
       
-    constructor(uint256 _oraclePayment) public {
+    constructor(uint256 _oraclePayment) public ChainlinkClient() {
         setPublicChainlinkToken();
         oraclePayment = _oraclePayment;
     }
