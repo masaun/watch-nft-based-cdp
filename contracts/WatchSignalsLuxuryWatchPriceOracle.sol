@@ -12,7 +12,7 @@ contract WatchSignalsLuxuryWatchPriceOracle is ChainlinkClient {
       
     constructor(uint256 _oraclePayment) public ChainlinkClient() {
         setPublicChainlinkToken();
-        oraclePayment = _oraclePayment;
+        oraclePayment = _oraclePayment;   /// 0.1 LINK in case of Kovan testnet
     }
 
 

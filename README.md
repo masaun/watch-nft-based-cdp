@@ -66,6 +66,13 @@ $ ganache-cli -d --fork https://kovan.infura.io/v3/{YOUR INFURA KEY OF KOVAN}
 
 <br>
 
+### ④ Scripts
+```
+$ npm run script:WatchSignals
+```
+
+
+<br>
 
 ***
 
