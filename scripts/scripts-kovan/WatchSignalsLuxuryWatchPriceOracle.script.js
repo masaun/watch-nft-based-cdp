@@ -22,7 +22,6 @@ let watchSignals_ABI = WatchSignalsLuxuryWatchPriceOracle.abi
 let WATCH_SIGNALS
 
 
-
 /***
  * @dev - Execution COMMAND: 
  **/
