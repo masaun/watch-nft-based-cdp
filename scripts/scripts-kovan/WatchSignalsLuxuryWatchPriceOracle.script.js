@@ -19,7 +19,7 @@ const WatchSignalsLuxuryWatchPriceOracle = artifacts.require("WatchSignalsLuxury
 let watchSignals_ABI = WatchSignalsLuxuryWatchPriceOracle.abi
 
 /// Contract addresses
-let WATCH_SIGNALS
+let WATCH_SIGNALS = WatchSignalsLuxuryWatchPriceOracle.address
 
 
 /***
@@ -71,7 +71,6 @@ async function checkStateInAdvance() {
 async function setUpSmartContracts() {
     console.log("Create the WatchSignalsLuxuryWatchPriceOracle contract instance");
     watchSignals = await WatchSignalsLuxuryWatchPriceOracle.at(WATCH_SIGNALS)
-    WATCH_SIGNALS = watchSignals.address;
 
     /// Logs (each deployed-contract addresses)
     console.log('=== WATCH_SIGNALS ===', WATCH_SIGNALS)
