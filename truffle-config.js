@@ -3,13 +3,14 @@ require('dotenv').config();
 const HDWalletProvider = require('@truffle/hdwallet-provider');  // @notice - Should use new module.
 const mnemonic = process.env.MNEMONIC;
 
-/// Arbitrum
+/// Arbitrum testnet
 const wrapProvider = require('arb-ethers-web3-bridge').wrapProvider
-const arbProviderUrl = 'http://localhost:8547/'
+const arbProviderUrl = "https://kovan4.arbitrum.io/rpc"
 
 
 module.exports = {
-  arbitrum: {
+  networks: {
+    arbitrum: {  /// [Note]: The definition of "arbitrum" should be outside of "networks"
       provider: function () {
         // return wrapped provider:
         return wrapProvider(
@@ -17,9 +18,8 @@ module.exports = {
         )
       },
       network_id: '*',
-      gasPrice: 0,
-  },
-  networks: {
+      gasPrice: 0
+    },      
     kovan: {
       provider: () => new HDWalletProvider(mnemonic, 'https://kovan.infura.io/v3/' + process.env.INFURA_KEY),
       network_id: '42',
