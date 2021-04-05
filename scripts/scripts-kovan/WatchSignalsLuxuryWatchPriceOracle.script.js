@@ -53,7 +53,6 @@ async function main() {
     await setUpSmartContracts();
 
     console.log("\n------------- Preparation for tests in advance -------------");
-    await transferLINKToExecutionContract()
 
     console.log("\n------------- Process of the WatchSignalsLuxuryWatchPriceOracle -------------");
     await requestPrice()
@@ -83,21 +82,12 @@ async function setUpSmartContracts() {
     console.log('=== LINK_TOKEN ===', LINK_TOKEN)
 }
 
-async function transferLINKToExecutionContract() {
-    console.log("Transfer 1 LINK into the WatchSignalsLuxuryWatchPriceOracle contract");
-    const amount = web3.utils.toWei('1', 'ether')
-    const txReceipt = await linkToken.transfer(WATCH_SIGNALS, amount)
-
-    console.log("LINK balance of the WatchSignalsLuxuryWatchPriceOracle contract should has more than 0.1 LINK")
-    const _LinkBalance = await linkToken.balanceOf(WATCH_SIGNALS)
-    const LinkBalance = web3.utils.fromWei(String(_LinkBalance), 'ether')
-    console.log('=== LINK balance of the WatchSignalsLuxuryWatchPriceOracle contract ===', LinkBalance)    
-}
-
 async function requestPrice() {
     console.log("Request price");
 
     /// [Note]: Need to have more than 1 LINK balance of the WatchSignalsLuxuryWatchPriceOracle.sol
+    const approvedLinkAmount = web3.utils.toWei('1', 'ether')  /// 0.1 LINK as a fee to request oracle
+    let txReceipt1 = await linkToken.approve(WATCH_SIGNALS, approvedLinkAmount)
 
     /// Assign 
     const _oracle = contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["Oracle"]
@@ -108,7 +98,7 @@ async function requestPrice() {
     console.log('=== _jobId ===', _jobId)
     console.log('=== _refNumber ===', _refNumber)
 
-    let txReceipt = await watchSignals.requestPrice(_oracle, _jobId, _refNumber)
+    let txReceipt2 = await watchSignals.requestPrice(_oracle, _jobId, _refNumber)
     //let txReceipt = await watchSignals.requestPrice(_oracle, _jobId, _refNumber, { from: deployer })
 }
 
