@@ -88,7 +88,7 @@ async function transferLINKToExecutionContract() {
     const amount = web3.utils.toWei('1', 'ether')
     const txReceipt = await linkToken.transfer(WATCH_SIGNALS, amount)
 
-    console.log("LINK balance of the WatchSignalsLuxuryWatchPriceOracle contract should has more than 0.1 LINK")
+    console.log("LINK balance of the WatchSignalsLuxuryWatchPriceOracle contract should be more than 0.1 LINK")
     const _LinkBalance = await linkToken.balanceOf(WATCH_SIGNALS)
     const LinkBalance = web3.utils.fromWei(String(_LinkBalance), 'ether')
     console.log('=== LINK balance of the WatchSignalsLuxuryWatchPriceOracle contract ===', LinkBalance)    

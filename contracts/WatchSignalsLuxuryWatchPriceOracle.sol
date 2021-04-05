@@ -3,6 +3,7 @@ pragma solidity 0.6.12;
 /// [Note]: How to declaration should be simple
 /// [Note]: Use solidity v0.6 for chainlink
 import "./chainlink/v0.6/ChainlinkClient.sol";
+import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterface.sol";
 
 
 /**
@@ -22,14 +23,27 @@ contract WatchSignalsLuxuryWatchPriceOracle is ChainlinkClient {
   
     uint256 oraclePayment;
     uint256 public price;
-      
-    constructor(uint256 _oraclePayment) public ChainlinkClient() {
+  
+    LinkTokenInterface public linkToken;
+
+    constructor(LinkTokenInterface _linkToken, uint256 _oraclePayment) public ChainlinkClient() {
         setPublicChainlinkToken();
+
+        linkToken = _linkToken;
         oraclePayment = _oraclePayment;   /// 0.1 LINK in case of Kovan testnet
     }
 
 
+    /**
+     * @notice - Request price
+     * @notice - On the assumption that LINK balance of this contract should be more than 0.1 LINK 
+     */
     function requestPrice(address _oracle, bytes32 _jobId, string memory _refNumber) public {
+        /// This contract should receive LINK from msg.sender
+        uint linkAmount = 1e17;  /// 0.1 LINK
+        linkToken.transferFrom(msg.sender, address(this), linkAmount);
+
+        /// Request oracle
         Chainlink.Request memory req = buildChainlinkRequest(_jobId, address(this), this.fulfill.selector);
         req.add("refNumber", _refNumber);
         sendChainlinkRequestTo(_oracle, req, oraclePayment);
