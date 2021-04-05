@@ -21,7 +21,8 @@
     "@truffle/hdwallet-provider": "^1.2.0",
     "dotenv": "^8.2.0",
     "eth-block-tracker": "^4.4.3",
-    "@chainlink/contracts": "^0.1.6"
+    "@chainlink/contracts": "^0.1.6",
+    "arb-ethers-web3-bridge": "0.7.3"
   },
   "devDependencies": {}
 }
