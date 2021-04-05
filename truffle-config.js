@@ -9,8 +9,7 @@ const arbProviderUrl = 'http://localhost:8547/'
 
 
 module.exports = {
-  networks: {
-    arbitrum: {
+  arbitrum: {
       provider: function () {
         // return wrapped provider:
         return wrapProvider(
@@ -19,7 +18,8 @@ module.exports = {
       },
       network_id: '*',
       gasPrice: 0,
-    },
+  },
+  networks: {
     kovan: {
       provider: () => new HDWalletProvider(mnemonic, 'https://kovan.infura.io/v3/' + process.env.INFURA_KEY),
       network_id: '42',

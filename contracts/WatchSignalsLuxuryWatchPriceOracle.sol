@@ -1,6 +1,6 @@
 pragma solidity 0.6.12;
 
-/// [Note]: How to declaration should be simple
+/// [Note]: How to declaration of the ChainlinkClient.sol should be simple
 /// [Note]: Use solidity v0.6 for chainlink
 import "./chainlink/v0.6/ChainlinkClient.sol";
 import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterface.sol";
