@@ -19,7 +19,7 @@ const WatchSignalsLuxuryWatchPriceOracle = artifacts.require("WatchSignalsLuxury
 let watchSignals_ABI = WatchSignalsLuxuryWatchPriceOracle.abi
 
 /// Contract addresses
-let WATCH_SIGNALS
+let WATCH_SIGNALS = WatchSignalsLuxuryWatchPriceOracle.address
 
 
 /***
@@ -53,7 +53,7 @@ async function main() {
     console.log("\n------------- Preparation for tests in advance -------------");
 
     console.log("\n------------- Process of the WatchSignalsLuxuryWatchPriceOracle -------------");
-
+    await requestPrice()
 }
 
 
@@ -71,11 +71,24 @@ async function checkStateInAdvance() {
 async function setUpSmartContracts() {
     console.log("Create the WatchSignalsLuxuryWatchPriceOracle contract instance");
     watchSignals = await WatchSignalsLuxuryWatchPriceOracle.at(WATCH_SIGNALS)
-    WATCH_SIGNALS = watchSignals.address;
 
     /// Logs (each deployed-contract addresses)
     console.log('=== WATCH_SIGNALS ===', WATCH_SIGNALS)
 }
+
+
+async function requestPrice() {
+    console.log("Request price");
+
+    /// [Note]: Need to have more than 1 LINK balance 
+
+    /// Assign 
+    const _oracle = contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["Oracle"]
+    const _jobId = web3.utils.toHex(contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["JobID"])  /// [Note]: JobID is converted from string to bytes32
+    const _refNumber = "RM1101"
+    txReceipt = await watchSignals.requestPrice(_oracle, _jobId, _refNumber,{ from: deployer })
+}
+
 
 
 
