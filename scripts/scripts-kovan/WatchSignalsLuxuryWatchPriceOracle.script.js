@@ -86,7 +86,8 @@ async function requestPrice() {
     const _oracle = contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["Oracle"]
     const _jobId = web3.utils.toHex(contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["JobID"])  /// [Note]: JobID is converted from string to bytes32
     const _refNumber = "RM1101"
-    txReceipt = await watchSignals.requestPrice(_oracle, _jobId, _refNumber,{ from: deployer })
+    let txReceipt = await watchSignals.requestPrice(_oracle, _jobId, _refNumber)
+    //let txReceipt = await watchSignals.requestPrice(_oracle, _jobId, _refNumber, { from: deployer })
 }
 
 
