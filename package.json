@@ -11,7 +11,8 @@
     "script:WatchSignals": "truffle exec ./scripts/scripts-kovan/WatchSignalsLuxuryWatchPriceOracle.script.js --network kovan",
     "compile:local": "truffle compile --reset --network local",
     "migrate:local": "truffle migrate --reset --network local",
-    "migrate:kovan": "truffle migrate --reset --network kovan"
+    "migrate:kovan": "truffle migrate --reset --network kovan",
+    "migrate:arbitrum": "truffle migrate --reset --network arbitrum"
   },
   "author": "masaun",
   "license": "MIT",
