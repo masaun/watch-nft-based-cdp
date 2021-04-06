@@ -86,7 +86,7 @@ async function requestPrice() {
     console.log("Request price");
 
     /// [Note]: Need to have more than 1 LINK balance of the WatchSignalsLuxuryWatchPriceOracle.sol
-    const approvedLinkAmount = web3.utils.toWei('1', 'ether')  /// 0.1 LINK as a fee to request oracle
+    const approvedLinkAmount = web3.utils.toWei('0.1', 'ether')  /// 0.1 LINK as a fee to request oracle
     let txReceipt1 = await linkToken.approve(WATCH_SIGNALS, approvedLinkAmount)
 
     /// Assign 
