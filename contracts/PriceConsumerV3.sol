@@ -13,7 +13,7 @@ contract PriceConsumerV3 {
      * Address: 0x9326BFA02ADD2366b30bacB125260Af641031331
      */
     constructor() public {
-        priceFeed = AggregatorV3Interface(0x9326BFA02ADD2366b30bacB125260Af641031331);
+        priceFeed = AggregatorV3Interface(0x9326BFA02ADD2366b30bacB125260Af641031331);  /// Kovan
     }
 
     /**
