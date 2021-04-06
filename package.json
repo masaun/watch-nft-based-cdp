@@ -12,6 +12,7 @@
     "script:PriceConsumerV3": "truffle exec ./scripts/scripts-kovan/PriceConsumerV3.script.js --network kovan",
     "script-arbitrum:PriceConsumerV3": "truffle exec ./scripts/scripts-arbitrum/PriceConsumerV3.script.js --network arbitrum",
     "compile:local": "truffle compile --reset --network local",
+    "compile:kovan": "truffle compile --reset --network kovan",
     "migrate:local": "truffle migrate --reset --network local",
     "migrate:kovan": "truffle migrate --reset --network kovan",
     "migrate:arbitrum": "truffle migrate --reset --network arbitrum"
