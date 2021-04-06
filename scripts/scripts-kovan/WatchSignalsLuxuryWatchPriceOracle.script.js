@@ -56,6 +56,7 @@ async function main() {
 
     console.log("\n------------- Process of the WatchSignalsLuxuryWatchPriceOracle -------------");
     await requestPrice()
+    await getPrice()
 }
 
 
@@ -86,7 +87,7 @@ async function requestPrice() {
     console.log("Request price");
 
     /// [Note]: Need to have more than 1 LINK balance of the WatchSignalsLuxuryWatchPriceOracle.sol
-    const approvedLinkAmount = web3.utils.toWei('1', 'ether')  /// 0.1 LINK as a fee to request oracle
+    const approvedLinkAmount = web3.utils.toWei('0.1', 'ether')  /// 0.1 LINK as a fee to request oracle
     let txReceipt1 = await linkToken.approve(WATCH_SIGNALS, approvedLinkAmount)
 
     /// Assign 
@@ -100,11 +101,38 @@ async function requestPrice() {
 
     let txReceipt2 = await watchSignals.requestPrice(_oracle, _jobId, _refNumber)
     //let txReceipt = await watchSignals.requestPrice(_oracle, _jobId, _refNumber, { from: deployer })
+    console.log('=== txReceipt2 ===', txReceipt2)
+
+    /// Retrive an event log of "ChainlinkRequested"
+    //let requestId = await getEvents(watchSignals, "ChainlinkRequested")
+    //console.log('=== requestId (event log of ChainlinkRequested) ===', requestId)
 }
 
 
 
+async function getPrice() {
+    let currentPrice = await watchSignals.price()
+    console.log('=== current price ===', String(currentPrice)) 
+}
 
+
+///--------------------------------------------
+/// Get event
+///--------------------------------------------
+async function getEvents(contractInstance, eventName) {
+    const _latestBlock = await time.latestBlock()
+    const LATEST_BLOCK = Number(String(_latestBlock))
+
+    /// [Note]: Retrieve an event log of eventName (via web3.js v1.0.0)
+    let events = await contractInstance.getPastEvents(eventName, {
+        filter: {},
+        fromBlock: LATEST_BLOCK,  /// [Note]: The latest block on Kovan testnet
+        //fromBlock: 0,
+        toBlock: 'latest'
+    })
+    //console.log(`\n=== [Event log]: ${ eventName } ===`, events[0].returnValues)
+    return events[0].returnValues
+} 
 
 
 ///---------------------------------------------------------
