@@ -56,6 +56,7 @@ async function main() {
 
     console.log("\n------------- Process of the WatchSignalsLuxuryWatchPriceOracle -------------");
     await requestPrice()
+    await getPrice()
 }
 
 
@@ -107,6 +108,12 @@ async function requestPrice() {
     //console.log('=== requestId (event log of ChainlinkRequested) ===', requestId)
 }
 
+
+
+async function getPrice() {
+    let currentPrice = await watchSignals.price()
+    console.log('=== current price ===', String(currentPrice)) 
+}
 
 
 ///--------------------------------------------
