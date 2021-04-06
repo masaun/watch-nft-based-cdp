@@ -1,8 +1,7 @@
 // This example code is designed to quickly deploy an example contract using Remix.
-
 pragma solidity ^0.6.7;
 
-import "./chainlink/v0.6/interfaces/AggregatorV3Interface.sol";
+import { AggregatorV3Interface } from "./chainlink/v0.6/interfaces/AggregatorV3Interface.sol";
 
 contract PriceConsumerV3 {
 
