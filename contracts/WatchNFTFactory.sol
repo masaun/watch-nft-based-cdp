@@ -16,6 +16,7 @@ contract WatchNFTFactory {
     Watch[] watchs;
 
     address[] public watchNFTs;  /// Created-Watch NFT contract addresses
+    address WATCH_SIGNALS;
 
     event WatchNFTCreated(address indexed watchNFT);
 
@@ -25,6 +26,8 @@ contract WatchNFTFactory {
     constructor(WatchSignalsLuxuryWatchPriceOracle _watchSignals, LinkTokenInterface _linkToken) public {
         watchSignals = watchSignals;
         linkToken = _linkToken;
+
+        WATCH_SIGNALS = address(watchSignals);
     }
 
     /**
@@ -64,6 +67,7 @@ contract WatchNFTFactory {
         uint linkAmount = 1e17;  /// 0.1 LINK
         linkToken.transferFrom(msg.sender, address(this), linkAmount);        
 
+        linkToken.approve(WATCH_SIGNALS, linkAmount);
         watchSignals.requestPrice(_oracle, _jobId, _refNumber);
     }
 
