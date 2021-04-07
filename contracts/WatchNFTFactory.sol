@@ -4,6 +4,8 @@ pragma experimental ABIEncoderV2;
 
 import { WatchSignalsLuxuryWatchPriceOracle } from "./WatchSignalsLuxuryWatchPriceOracle.sol";
 import { WatchNFT } from "./WatchNFT.sol";
+import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterface.sol";
+
 
 contract WatchNFTFactory {
 
@@ -14,13 +16,18 @@ contract WatchNFTFactory {
     Watch[] watchs;
 
     address[] public watchNFTs;  /// Created-Watch NFT contract addresses
+    address WATCH_SIGNALS;
 
     event WatchNFTCreated(address indexed watchNFT);
 
     WatchSignalsLuxuryWatchPriceOracle public watchSignals;
+    LinkTokenInterface public linkToken;    
 
-    constructor(WatchSignalsLuxuryWatchPriceOracle _watchSignals) public {
-        watchSignals = watchSignals;
+    constructor(WatchSignalsLuxuryWatchPriceOracle _watchSignals, LinkTokenInterface _linkToken) public {
+        watchSignals = _watchSignals;
+        linkToken = _linkToken;
+
+        WATCH_SIGNALS = address(watchSignals);
     }
 
     /**
@@ -56,6 +63,11 @@ contract WatchNFTFactory {
      * @notice - Update a watch price with the latest watch price via chainlink oracle 
      */
     function updateWatchPrice(address _oracle, bytes32 _jobId, string memory _refNumber) public returns (bool) {
+        /// This contract should receive LINK from msg.sender
+        uint linkAmount = 1e17;  /// 0.1 LINK
+        linkToken.transferFrom(msg.sender, address(this), linkAmount);  
+
+        linkToken.approve(WATCH_SIGNALS, linkAmount);
         watchSignals.requestPrice(_oracle, _jobId, _refNumber);
     }
 
