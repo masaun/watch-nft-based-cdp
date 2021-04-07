@@ -91,28 +91,25 @@ async function requestPrice() {
     let txReceipt1 = await linkToken.approve(WATCH_SIGNALS, approvedLinkAmount)
 
     /// Assign 
-    const _oracle = contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["Oracle"]
-    const _jobId = web3.utils.toHex(contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["JobID"])  /// [Note]: JobID is converted from string to bytes32
-    const _refNumber = "RM1101"
+    const oracle = contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["Oracle"]
+    const _jobId = contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["JobID"]
+    const jobId = web3.utils.toHex(_jobId)  /// [Note]: JobID is converted from string to bytes32
+    const refNumber = "RM1101"
 
-    console.log('=== _oracle ===', _oracle)
-    console.log('=== _jobId ===', _jobId)
-    console.log('=== _refNumber ===', _refNumber)
+    console.log('=== oracle ===', oracle)
+    console.log('=== _jobId ===', _jobId)   /// Before JobID is converted
+    console.log('=== refNumber ===', refNumber)
 
-    let txReceipt2 = await watchSignals.requestPrice(_oracle, _jobId, _refNumber)
-    //let txReceipt = await watchSignals.requestPrice(_oracle, _jobId, _refNumber, { from: deployer })
-    console.log('=== txReceipt2 ===', txReceipt2)
+    let txReceipt2 = await watchSignals.requestPrice(oracle, jobId, refNumber)
 
     /// Retrive an event log of "ChainlinkRequested"
     //let requestId = await getEvents(watchSignals, "ChainlinkRequested")
     //console.log('=== requestId (event log of ChainlinkRequested) ===', requestId)
 }
 
-
-
 async function getPrice() {
     let currentPrice = await watchSignals.price()
-    console.log('=== current price ===', String(currentPrice)) 
+    console.log('=== current price ===', String(currentPrice))  /// [Result]: 22188000000000 ($221880)
 }
 
 

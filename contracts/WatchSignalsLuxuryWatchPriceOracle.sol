@@ -33,7 +33,6 @@ contract WatchSignalsLuxuryWatchPriceOracle is ChainlinkClient {
         oraclePayment = _oraclePayment;   /// 0.1 LINK in case of Kovan testnet
     }
 
-
     /**
      * @notice - Request price
      * @notice - On the assumption that LINK balance of this contract should be more than 0.1 LINK 
@@ -48,8 +47,10 @@ contract WatchSignalsLuxuryWatchPriceOracle is ChainlinkClient {
         req.add("refNumber", _refNumber);
         sendChainlinkRequestTo(_oracle, req, oraclePayment);
     }
-  
-
+ 
+    /**
+     * @notice - Update price with the latest price
+     */
     function fulfill(bytes32 _requestId, uint256 _price) public recordChainlinkFulfillment(_requestId) {
         price = _price;
     }
