@@ -9,6 +9,7 @@
     "test": "truffle test ./test/test-local/*",
     "test:Something": "truffle test ./test/test-local/Something.test.js --network test",
     "script:WatchSignals": "truffle exec ./scripts/scripts-kovan/WatchSignalsLuxuryWatchPriceOracle.script.js --network kovan",
+    "script:WatchNFTFactory": "truffle exec ./scripts/scripts-kovan/WatchNFTFactory.script.js --network kovan",
     "script:PriceConsumerV3": "truffle exec ./scripts/scripts-kovan/PriceConsumerV3.script.js --network kovan",
     "script-arbitrum:PriceConsumerV3": "truffle exec ./scripts/scripts-arbitrum/PriceConsumerV3.script.js --network arbitrum",
     "compile:local": "truffle compile --reset --network local",
