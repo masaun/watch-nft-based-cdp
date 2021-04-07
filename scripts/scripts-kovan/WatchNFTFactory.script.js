@@ -29,7 +29,6 @@ let LINK_TOKEN = tokenAddressList["Kovan"]["Chainlink"]["LINK Token"]
 
 /// Acccounts
 let deployer
-let user1
 
 /// Global contract instance
 let watchNFTFactory
@@ -53,9 +52,9 @@ async function main() {
 
     console.log("\n------------- Preparation for tests in advance -------------");
 
-    console.log("\n------------- Process of the WatchNFTFactory -------------");
-    await requestPrice()
-    await getPrice()
+    console.log("\n------------- Process of the WatchNFTFactory contract -------------");
+    await createWatchNFT()
+    await getLatestWatchPrice()
 }
 
 
@@ -65,9 +64,7 @@ async function main() {
 async function checkStateInAdvance() {
     /// Assign addresses into global variables of wallets
     deployer = process.env.DEPLOYER_ADDRESS
-    user1 = process.env.WALLET_ADDRESS_1
     console.log('=== deployer ===', deployer)
-    console.log('=== user1 ===', user1)
 }
 
 async function setUpSmartContracts() {
