@@ -24,7 +24,7 @@ contract WatchNFTFactory {
     LinkTokenInterface public linkToken;    
 
     constructor(WatchSignalsLuxuryWatchPriceOracle _watchSignals, LinkTokenInterface _linkToken) public {
-        watchSignals = watchSignals;
+        watchSignals = _watchSignals;
         linkToken = _linkToken;
 
         WATCH_SIGNALS = address(watchSignals);
@@ -47,12 +47,8 @@ contract WatchNFTFactory {
 
         watchNFTs.push(address(watchNFT));
 
-        /// This contract should receive LINK from msg.sender
-        uint linkAmount = 1e17;  /// 0.1 LINK
-        linkToken.transferFrom(msg.sender, address(this), linkAmount); 
-
         /// Save the latest watch price by using chainlink oracle
-        updateWatchPrice(_oracle, _jobId, _refNumber, linkAmount);
+        updateWatchPrice(_oracle, _jobId, _refNumber);
         uint latestWatchPrice = getLatestWatchPrice();
         Watch memory watch = Watch({
             owner: _initialOwner,
@@ -66,7 +62,11 @@ contract WatchNFTFactory {
     /**
      * @notice - Update a watch price with the latest watch price via chainlink oracle 
      */
-    function updateWatchPrice(address _oracle, bytes32 _jobId, string memory _refNumber, uint linkAmount) public returns (bool) {
+    function updateWatchPrice(address _oracle, bytes32 _jobId, string memory _refNumber) public returns (bool) {
+        /// This contract should receive LINK from msg.sender
+        uint linkAmount = 1e17;  /// 0.1 LINK
+        linkToken.transferFrom(msg.sender, address(this), linkAmount);  
+
         linkToken.approve(WATCH_SIGNALS, linkAmount);
         watchSignals.requestPrice(_oracle, _jobId, _refNumber);
     }
