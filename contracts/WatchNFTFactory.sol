@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
+pragma experimental ABIEncoderV2;
 
 import { WatchSignalsLuxuryWatchPriceOracle } from "./WatchSignalsLuxuryWatchPriceOracle.sol";
 import { WatchNFT } from "./WatchNFT.sol";
@@ -12,7 +13,7 @@ contract WatchNFTFactory {
     }
     Watch[] watchs;
 
-    address[] public watchNFTs;
+    address[] public watchNFTs;  /// Created-Watch NFT contract addresses
 
     event WatchNFTCreated(address indexed watchNFT);
 
@@ -39,7 +40,7 @@ contract WatchNFTFactory {
 
         watchNFTs.push(address(watchNFT));
 
-        /// [Todo]: Retrieve the latest watch price by using chainlink oracle
+        /// Save the latest watch price by using chainlink oracle
         updateWatchPrice(_oracle, _jobId, _refNumber);
         uint latestWatchPrice = getLatestWatchPrice();
         Watch memory watch = Watch({
@@ -63,6 +64,31 @@ contract WatchNFTFactory {
      */
     function getLatestWatchPrice() public view returns (uint _latestWatchPrice) {
         return watchSignals.price();
-    }   
+    }
+
+
+    ///---------------------------
+    /// Getter methods
+    ///---------------------------
+    function getAllWatchNFTs() public view returns(address[] memory _watchNFTs) {
+        return watchNFTs;
+    }
+
+    function getAllWatchs() public view returns (Watch[] memory _watchs) {
+        return watchs;
+    }
+
+    function getWatch(WatchNFT _watchNFT) public view returns (Watch memory _watch) {
+        address WATCH_NFT = address(_watchNFT);
+    
+        uint index;
+        for (uint i=0; i < watchNFTs.length; i++) {
+            if (watchNFTs[i] == WATCH_NFT) {
+                index = i;
+            }
+        }
+
+        return watchs[index];
+    }
     
 }
