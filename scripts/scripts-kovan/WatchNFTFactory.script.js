@@ -5,9 +5,6 @@ const Web3 = require('web3');
 const provider = new Web3.providers.HttpProvider(`https://kovan.infura.io/v3/${ process.env.INFURA_KEY }`);
 const web3 = new Web3(provider);
 
-/// Openzeppelin test-helper
-const { time } = require('@openzeppelin/test-helpers');
-
 /// Import deployed-addresses
 const contractAddressList = require("../../migrations/addressesList/contractAddress/contractAddress.js")
 const tokenAddressList = require("../../migrations/addressesList/tokenAddress/tokenAddress.js")
@@ -21,6 +18,9 @@ const LinkTokenInterface = artifacts.require("LinkTokenInterface")
 let WATCH_NFT_FACTORY = WatchNFTFactory.address
 let WATCH_SIGNALS = WatchSignalsLuxuryWatchPriceOracle.address
 let LINK_TOKEN = tokenAddressList["Kovan"]["Chainlink"]["LINK Token"]
+
+/// Variable to assign created-Watch NFT contract address
+let WATCH_NFT 
 
 
 /***
@@ -44,13 +44,11 @@ module.exports = function(callback) {
 };
 
 async function main() {
-    console.log("\n------------- Check state in advance -------------");
+    console.log("\n------------- Check users (wallets) -------------");
     await checkStateInAdvance();
 
     console.log("\n------------- Setup smart-contracts -------------");
     await setUpSmartContracts();
-
-    console.log("\n------------- Preparation for tests in advance -------------");
 
     console.log("\n------------- Process of the WatchNFTFactory contract -------------");
     await createWatchNFT()
@@ -100,11 +98,16 @@ async function createWatchNFT() {
     const refNumber = "RM1101"
 
     let txReceipt2 = await watchNFTFactory.createWatchNFT(name, symbol, initialOwner, watchURI, oracle, jobId, refNumber)
+
+    /// [Event log]: "WatchNFTCreated"
+    let event = await getEvents(watchNFTFactory, "WatchNFTCreated")
+    WATCH_NFT = event.watchNFT
+    console.log('=== WATCH_NFT ===', WATCH_NFT)
 }
 
 async function getLatestWatchPrice() {
     let currentPrice = await watchNFTFactory.getLatestWatchPrice()
-    console.log('=== current price ===', String(currentPrice))  /// [Result]: 22188000000000 ($221880)
+    console.log('=== current watch price ===', String(currentPrice))  /// [Result]: 22188000000000 ($221880)
 }
 
 
@@ -112,7 +115,7 @@ async function getLatestWatchPrice() {
 /// Get event
 ///--------------------------------------------
 async function getEvents(contractInstance, eventName) {
-    const _latestBlock = await time.latestBlock()
+    const _latestBlock = await getCurrentBlock()
     const LATEST_BLOCK = Number(String(_latestBlock))
 
     /// [Note]: Retrieve an event log of eventName (via web3.js v1.0.0)
@@ -122,13 +125,13 @@ async function getEvents(contractInstance, eventName) {
         //fromBlock: 0,
         toBlock: 'latest'
     })
-    //console.log(`\n=== [Event log]: ${ eventName } ===`, events[0].returnValues)
+    console.log(`\n=== [Event log]: ${ eventName } ===`, events[0].returnValues)
     return events[0].returnValues
 } 
 
 
 ///---------------------------------------------------------
-/// Process of WatchSignalsLuxuryWatchPriceOracle contract
+/// Get current block number
 ///---------------------------------------------------------
 async function getCurrentBlock() {
     const currentBlock = await web3.eth.getBlockNumber()
