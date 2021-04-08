@@ -112,8 +112,21 @@ contract WatchCDP {
         uint repayAmount = repayAmountPerBlock.mul(_startBlock.sub(endBlock));
 
         watchSignalsToken.transferFrom(msg.sender, address(this), repayAmount);
+
+        /// Save the status of borrowing
+        //_updateBorrowStatus(borrower, endBlock);
     }
-    
+
+    /**
+     * @notice - Update the status of borrowing
+     */
+    /// [Todo]: Move this method into the CDP's Data contract. (Because it's impossible "memory" and "storage"' in the same directory)
+    // function _updateBorrowStatus(address _borrower, uint _endBlock) internal returns (bool) {
+    //     Borrow storage borrow = getBorrow(_borrower);
+    //     borrow.endBlock = block.number;
+    //     borrow.borrowStatus = BorrowStatus.Close;
+    // }
+
 
     ///------------------
     /// Getter methods
