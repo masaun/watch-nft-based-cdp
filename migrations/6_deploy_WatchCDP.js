@@ -1,12 +1,13 @@
+const WatchCDP = artifacts.require("WatchCDP");
+const WatchSignalsToken = artifacts.require("WatchSignalsToken");
 const WatchNFTFactory = artifacts.require("WatchNFTFactory");
-const WatchSignalsLuxuryWatchPriceOracle = artifacts.require("WatchSignalsLuxuryWatchPriceOracle")
 
 /// Import deployed-addresses
 const tokenAddressList = require("./addressesList/tokenAddress/tokenAddress.js")
 
-const _watchSignals = WatchSignalsLuxuryWatchPriceOracle.address
-const _linkToken = tokenAddressList["Kovan"]["Chainlink"]["LINK Token"]
+const _watchSignalsToken = WatchSignalsToken.address
+const _watchNFTFactory = WatchNFTFactory.address
 
 module.exports = async function(deployer) {
-    await deployer.deploy(WatchNFTFactory, _watchSignals, _linkToken);
+    await deployer.deploy(WatchCDP, _watchSignalsToken, _watchNFTFactory);
 };
