@@ -10,6 +10,7 @@ import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterfa
 contract WatchNFTFactory {
 
     struct Watch {
+        WatchNFT watchNFT;
         address owner;
         uint watchPrice;
     }
@@ -51,6 +52,7 @@ contract WatchNFTFactory {
         updateWatchPrice(_oracle, _jobId, _refNumber);
         uint latestWatchPrice = getLatestWatchPrice();
         Watch memory watch = Watch({
+            watchNFT: watchNFT,
             owner: _initialOwner,
             watchPrice: latestWatchPrice
         });

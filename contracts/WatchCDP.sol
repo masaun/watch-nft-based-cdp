@@ -2,7 +2,6 @@
 pragma solidity 0.6.12;
 pragma experimental ABIEncoderV2;
 
-
 import { WatchSignalsToken } from "./WatchSignalsToken.sol";
 
 import { WatchSignalsLuxuryWatchPriceOracle } from "./WatchSignalsLuxuryWatchPriceOracle.sol";
@@ -19,11 +18,16 @@ contract WatchCDP {
         watchSignalsToken = _watchSignalsToken;
     }
 
-
     /**
      * @notice - Deposit a Watch NFT as collateral
+     * @notice - Compute available rate to borrow the Watch Signals Tokens (WST)
      */
-    function depositWatchNFTAsCollateral() public returns (bool) {}
+    function depositWatchNFTAsCollateral(WatchNFT _watchNFT) public returns (bool) {
+        WatchNFT watchNFT = _watchNFT;
+
+        uint tokenId = 1;  /// [Note]: tokenID is always 1
+        watchNFT.transferFrom(msg.sender, address(this), tokenId);
+    }
     
     /**
      * @notice - Bollow the Watch Signals Tokens (WST)
