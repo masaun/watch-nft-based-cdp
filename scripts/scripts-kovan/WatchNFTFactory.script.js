@@ -19,6 +19,9 @@ let WATCH_NFT_FACTORY = WatchNFTFactory.address
 let WATCH_SIGNALS = WatchSignalsLuxuryWatchPriceOracle.address
 let LINK_TOKEN = tokenAddressList["Kovan"]["Chainlink"]["LINK Token"]
 
+/// Variable to assign created-Watch NFT contract address
+let WATCH_NFT 
+
 
 /***
  * @dev - Execution COMMAND: 
@@ -41,13 +44,11 @@ module.exports = function(callback) {
 };
 
 async function main() {
-    console.log("\n------------- Check state in advance -------------");
+    console.log("\n------------- Check users (wallets) -------------");
     await checkStateInAdvance();
 
     console.log("\n------------- Setup smart-contracts -------------");
     await setUpSmartContracts();
-
-    console.log("\n------------- Preparation for tests in advance -------------");
 
     console.log("\n------------- Process of the WatchNFTFactory contract -------------");
     await createWatchNFT()
@@ -100,6 +101,8 @@ async function createWatchNFT() {
 
     /// [Event log]: "WatchNFTCreated"
     let event = await getEvents(watchNFTFactory, "WatchNFTCreated")
+    WATCH_NFT = event.watchNFT
+    console.log('=== WATCH_NFT ===', WATCH_NFT)
 }
 
 async function getLatestWatchPrice() {
@@ -128,7 +131,7 @@ async function getEvents(contractInstance, eventName) {
 
 
 ///---------------------------------------------------------
-/// Process of WatchSignalsLuxuryWatchPriceOracle contract
+/// Get current block number
 ///---------------------------------------------------------
 async function getCurrentBlock() {
     const currentBlock = await web3.eth.getBlockNumber()
