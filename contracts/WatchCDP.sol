@@ -11,6 +11,9 @@ import { WatchNFTFactory } from "./WatchNFTFactory.sol";
 import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterface.sol";
 
 
+/**
+ * @notice - This is the Watch CDP (Collateralized Debt Position) contract
+ */
 contract WatchCDP {
     using SafeMath for uint;
 
