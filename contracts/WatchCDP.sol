@@ -17,12 +17,14 @@ import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterfa
 contract WatchCDP {
     using SafeMath for uint;
 
+    enum BorrowStatus { Open, Close }
+
     struct Borrow {
         address borrower;
         uint borrowAmount;
         uint startBlock;   /// Block number when borrower borrowed
         uint endBlock;
-        bool borrowStatus;
+        BorrowStatus borrowStatus;
     }
     Borrow[] borrows;
     address[] public borrowers;
@@ -81,7 +83,7 @@ contract WatchCDP {
             borrowAmount: borrowAmount,
             startBlock: block.number,
             endBlock: 0,
-            borrowStatus: true
+            borrowStatus: BorrowStatus.Open
         });
         borrows.push(borrow);
 
