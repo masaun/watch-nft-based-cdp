@@ -8,7 +8,7 @@ contract WatchSignalsToken is ERC20 {
 
     constructor() public ERC20("WatchSignalsToken", "WST") {
         address initialReceiver = msg.sender;
-        uint initialSupply = 1e8 * 1e18;  /// 1M
+        uint initialSupply = 1e8 * 1e18;  /// 100 milion
         _mint(initialReceiver, initialSupply);
     }
 
