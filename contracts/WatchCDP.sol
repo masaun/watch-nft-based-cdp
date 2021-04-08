@@ -5,10 +5,8 @@ pragma experimental ABIEncoderV2;
 import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
 
 import { WatchSignalsToken } from "./WatchSignalsToken.sol";
-import { WatchSignalsLuxuryWatchPriceOracle } from "./WatchSignalsLuxuryWatchPriceOracle.sol";
 import { WatchNFT } from "./WatchNFT.sol";
 import { WatchNFTFactory } from "./WatchNFTFactory.sol";
-import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterface.sol";
 
 
 /**
