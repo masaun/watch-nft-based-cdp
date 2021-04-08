@@ -103,8 +103,8 @@ async function requestPrice() {
     let txReceipt2 = await watchSignals.requestPrice(oracle, jobId, refNumber)
 
     /// Retrive an event log of "ChainlinkRequested"
-    //let requestId = await getEvents(watchSignals, "ChainlinkRequested")
-    //console.log('=== requestId (event log of ChainlinkRequested) ===', requestId)
+    let requestId = await getEvents(watchSignals, "ChainlinkRequested")
+    console.log('=== requestId (event log of ChainlinkRequested) ===', requestId)
 }
 
 async function getPrice() {
@@ -117,7 +117,7 @@ async function getPrice() {
 /// Get event
 ///--------------------------------------------
 async function getEvents(contractInstance, eventName) {
-    const _latestBlock = await time.latestBlock()
+    const _latestBlock = await getCurrentBlock()
     const LATEST_BLOCK = Number(String(_latestBlock))
 
     /// [Note]: Retrieve an event log of eventName (via web3.js v1.0.0)
@@ -127,7 +127,7 @@ async function getEvents(contractInstance, eventName) {
         //fromBlock: 0,
         toBlock: 'latest'
     })
-    //console.log(`\n=== [Event log]: ${ eventName } ===`, events[0].returnValues)
+    console.log(`\n=== [Event log]: ${ eventName } ===`, events[0].returnValues)
     return events[0].returnValues
 } 
 
