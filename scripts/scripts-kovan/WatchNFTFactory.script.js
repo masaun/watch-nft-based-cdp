@@ -70,11 +70,9 @@ async function setUpSmartContracts() {
     linkToken = await LinkTokenInterface.at(LINK_TOKEN)
 
     console.log("Create the WatchNFTFactory contract instance");
-    watchNFTFactory = await WatchNFTFactory.new(WATCH_SIGNALS, LINK_TOKEN, { from: deployer })
-    WATCH_NFT_FACTORY = watchNFTFactory.address
+    watchNFTFactory = await WatchNFTFactory.at(WATCH_NFT_FACTORY)
 
     /// Logs (each deployed-contract addresses)
-    console.log('=== WATCH_SIGNALS ===', WATCH_SIGNALS)
     console.log('=== WATCH_NFT_FACTORY ===', WATCH_NFT_FACTORY)
     console.log('=== LINK_TOKEN ===', LINK_TOKEN)
 }
