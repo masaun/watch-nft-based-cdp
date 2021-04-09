@@ -169,8 +169,9 @@ async function depositWatchNFTAsCollateral() {
 
 async function borrow() {
     console.log("Borrow the Watch Signals Tokens (WST)");
+    const borrower = deployer
     const borrowAmount = web3.utils.toWei('100', 'ether')  /// 100 WST
-    let txReceipt = await watchCDP.borrow(borrowAmount, WATCH_NFT, { from: deployer })
+    let txReceipt = await watchCDP.borrow(borrowAmount, WATCH_NFT, { from: borrower })
 
     console.log("WST balance of deployer should be 100 WST")
     let wstBalance = await watchSignalsToken.balanceOf(deployer)
@@ -181,12 +182,13 @@ async function borrow() {
 
 async function repay() {
     console.log("Repay the Watch Signals Tokens (WST)");
+    const borrowId = 1
     const borrower = deployer
-    let repayAmount = await watchCDP.getRepayAmount(borrower)
+    let repayAmount = await watchCDP.getRepayAmount(borrowId)
     console.log('=== repayAmount ===', String(repayAmount))  
 
-    let txReceipt1 = await watchSignalsToken.approve(WATCH_CDP, repayAmount) 
-    let txReceipt2 = await watchCDP.repay(WATCH_NFT, { from: borrower })
+    let txReceipt1 = await watchSignalsToken.approve(WATCH_CDP, repayAmount, { from: borrower }) 
+    let txReceipt2 = await watchCDP.repay(borrowId, repayAmount, { from: borrower })
 }
 
 

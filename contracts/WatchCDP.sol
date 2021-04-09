@@ -104,13 +104,13 @@ contract WatchCDP {
     /**
      * @notice - Repay the Watch Signals Tokens (WST)
      */
-    function repay(uint borrowId) public returns (bool) {
+    function repay(uint borrowId, uint repayAmount) public returns (bool) {
         Borrow memory borrow = getBorrow(borrowId);
 
         require(borrow.borrower == msg.sender, "Caller should be borrower");
 
         /// Calculate amount to be repaid
-        uint repayAmount = getRepayAmount(borrowId);
+        //uint repayAmount = getRepayAmount(borrowId);
 
         watchSignalsToken.transferFrom(msg.sender, address(this), repayAmount);
 
