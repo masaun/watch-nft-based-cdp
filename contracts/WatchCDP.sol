@@ -15,6 +15,11 @@ import { WatchNFTFactory } from "./WatchNFTFactory.sol";
 contract WatchCDP {
     using SafeMath for uint;
 
+    //uint currentBorrowId;
+    uint interestToRepayPerBlock = 5; /// [Note]: This is a fixed interest to be repaid is 5% per block
+
+    address[] public borrowers;
+
     enum BorrowStatus { Open, Close }
 
     struct Borrow {
@@ -25,9 +30,6 @@ contract WatchCDP {
         BorrowStatus borrowStatus;
     }
     Borrow[] borrows;
-    address[] public borrowers;
-
-    uint interestToRepayPerBlock = 5; /// [Note]: This is a fixed interest to be repaid is 5% per block
 
     WatchSignalsToken public watchSignalsToken;
     WatchNFTFactory public watchNFTFactory;
@@ -92,7 +94,7 @@ contract WatchCDP {
     /**
      * @notice - Repay the Watch Signals Tokens (WST)
      */
-    function repay() public returns (bool) {
+    function repay(WatchNFT _watchNFT) public returns (bool) {
         address borrower = msg.sender;
 
         /// Calculate amount to be repaid
@@ -107,7 +109,7 @@ contract WatchCDP {
 
         uint _startBlock = borrow.startBlock;
         uint endBlock = block.number;
-        uint repayAmount = repayAmountPerBlock.mul(_startBlock.sub(endBlock));
+        uint repayAmount = repayAmountPerBlock.mul(endBlock.sub(_startBlock));
 
         watchSignalsToken.transferFrom(msg.sender, address(this), repayAmount);
 

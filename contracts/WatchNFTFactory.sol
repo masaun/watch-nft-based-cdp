@@ -55,8 +55,8 @@ contract WatchNFTFactory {
         updateWatchPrice(_oracle, _jobId, _refNumber);
         uint _latestWatchPrice = getLatestWatchPrice();  /// e.g). 22188000000000 ($221880)
 
-        /// Convert unit of the latest watch watch price
-        uint latestWatchPrice = _latestWatchPrice.div(100000000).mul(1e18)  /// $221880 * 1e18
+        /// Convert unit of the latest watch price
+        uint latestWatchPrice = _latestWatchPrice.div(100000000).mul(1e18);  /// $221880 * 1e18
 
         Watch memory watch = Watch({
             watchNFT: watchNFT,
