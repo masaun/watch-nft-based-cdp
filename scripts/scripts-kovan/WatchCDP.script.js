@@ -62,6 +62,7 @@ async function main() {
     await getLatestWatchPrice()
     await depositWatchSignalsTokenIntoPool()
     await depositWatchNFTAsCollateral()
+    await borrow()
 }
 
 
@@ -140,16 +141,16 @@ async function getLatestWatchPrice() {
 // }
 
 async function depositWatchSignalsTokenIntoPool() {
-    console.log("Deposit the Watch Signals Tokens (WST) into the Pool to borrow");
+    console.log("Deposit the Watch Signals Tokens (WST) into the Watch CDP Pool to borrow");
     const depositAmount = web3.utils.toWei('100', 'ether')  /// 100 WST
     let txReceipt1 = await watchSignalsToken.approve(WATCH_CDP, depositAmount)
     let txReceipt2 = await watchCDP.depositWatchSignalsTokenIntoPool(depositAmount, { from: deployer })
 
-    console.log("The WST balance of the Pool to borrow should be 100 WST")
+    console.log("The WST balance of the Watch CDP Pool to borrow should be 100 WST")
     let wstBalance = await watchSignalsToken.balanceOf(WATCH_CDP)
 
     /// [Log]
-    console.log('=== WST balance of the Pool ===', web3.utils.fromWei(String(wstBalance), 'ether'))
+    console.log('=== WST balance of the Watch CDP Pool ===', web3.utils.fromWei(String(wstBalance), 'ether'))
 }
 
 async function depositWatchNFTAsCollateral() {
@@ -158,13 +159,18 @@ async function depositWatchNFTAsCollateral() {
     let txReceipt1 = await watchNFT.approve(WATCH_CDP, tokenId)
     let txReceipt2 = await watchCDP.depositWatchNFTAsCollateral(WATCH_NFT, { from: deployer })
 
-    console.log("The owner of a Watch NFT should be the Pool")
+    console.log("The owner of a Watch NFT should be the Watch CDP Pool")
     let owner = await watchNFT.ownerOf(tokenId)
 
     /// [Log]
     console.log('=== The owner of a Watch NFT ===', owner)   
 }
 
+async function borrow() {
+    console.log("Borrow the Watch Signals Tokens (WST)");
+    const borrowAmount = web3.utils.toWei('100', 'ether')  /// 100 WST
+    let txReceipt = await watchCDP.borrow(borrowAmount, WATCH_NFT, { from: deployer })
+}
 
 
 

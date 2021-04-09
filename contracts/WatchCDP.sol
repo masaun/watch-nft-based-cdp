@@ -68,7 +68,7 @@ contract WatchCDP {
         uint _watchPrice = watch.watchPrice;
 
         /// [Note]: This is maximum amount to be able to borrow
-        uint availableBorrowAmount = _watchPrice.mul(60).div(100);
+        uint availableBorrowAmount = _watchPrice.mul(60).div(100);  /// 60%
         require (borrowAmount < availableBorrowAmount, "Borrow amount should be less than 60% of the available borrow amount");
         
         /// Execute borrowing the Watch Signals Tokens (WST)
