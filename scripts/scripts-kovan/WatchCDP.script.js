@@ -181,7 +181,10 @@ async function borrow() {
 
 async function repay() {
     console.log("Repay the Watch Signals Tokens (WST)");
-    let txReceipt = await watchCDP.repay(WATCH_NFT, { from: deployer })
+    const borrower = deployer
+    let repayAmount = await watchCDP.getRepayAmount(borrower)
+    let txReceipt1 = await watchSignalsToken.approve(WATCH_CDP, repayAmount) 
+    let txReceipt2 = await watchCDP.repay(WATCH_NFT, { from: borrower })
 }
 
 
