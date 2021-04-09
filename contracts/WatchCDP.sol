@@ -15,7 +15,7 @@ import { WatchNFTFactory } from "./WatchNFTFactory.sol";
 contract WatchCDP {
     using SafeMath for uint;
 
-    //uint currentBorrowId;
+    uint public currentBorrowId;
     uint interestToRepayPerBlock = 5; /// [Note]: This is a fixed interest to be repaid is 5% per block
 
     address[] public borrowers;
@@ -23,6 +23,7 @@ contract WatchCDP {
     enum BorrowStatus { Open, Close }
 
     struct Borrow {
+        WatchNFT watchNFT;
         address borrower;
         uint borrowAmount;
         uint startBlock;   /// Block number when borrower borrowed
@@ -33,6 +34,10 @@ contract WatchCDP {
 
     WatchSignalsToken public watchSignalsToken;
     WatchNFTFactory public watchNFTFactory;
+
+    event Borrowed(WatchNFT watchNFT, uint borrowId, address borrower, uint borrowAmount);
+    event Repaid(WatchNFT watchNFT, uint borrowId, address borrower, uint repayAmount);    
+    event Withdraw(WatchNFT watchNFT, uint borrowId, address borrower);    
 
     constructor(WatchSignalsToken _watchSignalsToken, WatchNFTFactory _watchNFTFactory) public {
         watchSignalsToken = _watchSignalsToken;
@@ -78,7 +83,9 @@ contract WatchCDP {
         watchSignalsToken.transfer(borrower, borrowAmount);
 
         /// Save data of borrowing
+        currentBorrowId++;   /// [Note]: currentBorrowId is started from 1
         Borrow memory borrow = Borrow({
+            watchNFT: watchNFT,
             borrower: borrower,
             borrowAmount: borrowAmount,
             startBlock: block.number,
@@ -89,22 +96,38 @@ contract WatchCDP {
 
         /// Save borrower's address
         borrowers.push(borrower);
+
+        /// Emit event
+        emit Borrowed(watchNFT, currentBorrowId, borrower, borrowAmount);
     }
 
     /**
      * @notice - Repay the Watch Signals Tokens (WST)
      */
-    function repay(WatchNFT _watchNFT) public returns (bool) {
-        address borrower = msg.sender;
+    function repay(uint borrowId) public returns (bool) {
+        Borrow memory borrow = getBorrow(borrowId);
+
+        require(borrow.borrower == msg.sender, "Caller should be borrower");
 
         /// Calculate amount to be repaid
-        uint repayAmount = getRepayAmount(borrower);
+        uint repayAmount = getRepayAmount(borrowId);
 
         watchSignalsToken.transferFrom(msg.sender, address(this), repayAmount);
 
         /// Save the status of borrowing
         //_updateBorrowStatus(borrower, endBlock);
+
+        /// Emit event
+        emit Repaid(borrow.watchNFT, borrowId, borrow.borrower, repayAmount);
     }
+
+    /**
+     * @notice - Withdraw a Watch NFT from collateral
+     */
+    function withdrawWatchNFTFromCollateral() public returns (bool) {
+        /// [Todo]:
+    }
+    
 
     /**
      * @notice - Update the status of borrowing
@@ -120,13 +143,13 @@ contract WatchCDP {
     ///------------------
     /// Getter methods
     ///------------------
-    function getRepayAmount(address borrower) public view returns (uint _repayAmount) {
+    function getRepayAmount(uint borrowId) public view returns (uint _repayAmount) {
         /// Calculate amount to be repaid
         uint secondPerBlock = 15;       /// 15 second per 1 block 
         uint secondPerYear = 31536000;  /// 31536000 second per 1 year
         uint generatedBlockPerYear = secondPerYear.div(secondPerBlock);  /// Blocks that will be generated per 1 year
         
-        Borrow memory borrow = getBorrow(borrower);
+        Borrow memory borrow = getBorrow(borrowId);
         uint borrowAmount = borrow.borrowAmount;
         uint repayAmountPerYear = borrowAmount.mul(interestToRepayPerBlock).div(100);  /// APY of the repay amount
         uint repayAmountPerBlock = repayAmountPerYear.div(generatedBlockPerYear);
@@ -142,7 +165,12 @@ contract WatchCDP {
         return borrows;
     }
 
-    function getBorrow(address borrower) public view returns (Borrow memory _borrow) {    
+    function getBorrow(uint borrowId) public view returns (Borrow memory _borrow) {
+        uint index = borrowId.sub(1);
+        return borrows[index];
+    }
+
+    function getBorrowByBorrowerAddress(address borrower) public view returns (Borrow memory _borrow) {    
         uint index;
         for (uint i=0; i < borrowers.length; i++) {
             if (borrowers[i] == borrower) {
