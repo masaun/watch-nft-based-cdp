@@ -143,6 +143,10 @@ contract WatchCDP {
     ///------------------
     /// Getter methods
     ///------------------
+
+    /**
+     * @notice - Get repaid-amount (principal + interest)
+     */
     function getRepayAmount(uint borrowId) public view returns (uint _repayAmount) {
         /// Calculate amount to be repaid
         uint secondPerBlock = 15;       /// 15 second per 1 block 
@@ -156,9 +160,11 @@ contract WatchCDP {
 
         uint _startBlock = borrow.startBlock;
         uint endBlock = block.number;
-        uint repayAmount = repayAmountPerBlock.mul(endBlock.sub(_startBlock));
+        uint repayInterest = repayAmountPerBlock.mul(endBlock.sub(_startBlock));
+        uint repayPrincipal = borrow.borrowAmount;
 
-        return repayAmount;        
+        uint repayAmount = repayPrincipal.add(repayInterest);
+        return repayAmount;
     }
 
     function getAllBorrows() public view returns (Borrow[] memory _borrows) {
