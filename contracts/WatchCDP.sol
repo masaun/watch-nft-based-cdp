@@ -98,18 +98,7 @@ contract WatchCDP {
         address borrower = msg.sender;
 
         /// Calculate amount to be repaid
-        uint secondPerBlock = 15;       /// 15 second per 1 block 
-        uint secondPerYear = 31536000;  /// 31536000 second per 1 year
-        uint generatedBlockPerYear = secondPerYear.div(secondPerBlock);  /// Blocks that will be generated per 1 year
-        
-        Borrow memory borrow = getBorrow(borrower);
-        uint borrowAmount = borrow.borrowAmount;
-        uint repayAmountPerYear = borrowAmount.mul(interestToRepayPerBlock).div(100);  /// APY of the repay amount
-        uint repayAmountPerBlock = repayAmountPerYear.div(generatedBlockPerYear);
-
-        uint _startBlock = borrow.startBlock;
-        uint endBlock = block.number;
-        uint repayAmount = repayAmountPerBlock.mul(endBlock.sub(_startBlock));
+        uint repayAmount = getRepayAmount(borrower);
 
         watchSignalsToken.transferFrom(msg.sender, address(this), repayAmount);
 
@@ -131,6 +120,24 @@ contract WatchCDP {
     ///------------------
     /// Getter methods
     ///------------------
+    function getRepayAmount(address borrower) public view returns (uint _repayAmount) {
+        /// Calculate amount to be repaid
+        uint secondPerBlock = 15;       /// 15 second per 1 block 
+        uint secondPerYear = 31536000;  /// 31536000 second per 1 year
+        uint generatedBlockPerYear = secondPerYear.div(secondPerBlock);  /// Blocks that will be generated per 1 year
+        
+        Borrow memory borrow = getBorrow(borrower);
+        uint borrowAmount = borrow.borrowAmount;
+        uint repayAmountPerYear = borrowAmount.mul(interestToRepayPerBlock).div(100);  /// APY of the repay amount
+        uint repayAmountPerBlock = repayAmountPerYear.div(generatedBlockPerYear);
+
+        uint _startBlock = borrow.startBlock;
+        uint endBlock = block.number;
+        uint repayAmount = repayAmountPerBlock.mul(endBlock.sub(_startBlock));
+
+        return repayAmount;        
+    }
+
     function getAllBorrows() public view returns (Borrow[] memory _borrows) {
         return borrows;
     }
