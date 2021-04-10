@@ -19,7 +19,7 @@ module.exports = {
       },
       network_id: '*',
       gasPrice: 0,
-      from: "0xd91df4880c64343e10F75d8E5f281BcBa4318e4b"  /// [Note]: Need to specify "from" address
+      from: process.env.DEPLOYER_ADDRESS  /// [Note]: Need to specify "from" address
     },      
     kovan: {
       provider: () => new HDWalletProvider(mnemonic, 'https://kovan.infura.io/v3/' + process.env.INFURA_KEY),
