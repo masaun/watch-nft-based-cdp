@@ -125,7 +125,7 @@ async function checkWstBalanceInAdvance() {
     let _wstBalanceOfWatchCDP = await watchSignalsToken.balanceOf(WATCH_CDP)
     let wstBalanceOfWatchCDP = web3.utils.fromWei(String(_wstBalanceOfWatchCDP), 'ether')
 
-    console.log("WatchSignalsToken (WST) balance of deployer should be 0")
+    console.log("WatchSignalsToken (WST) balance of deployer should be 1000")
     console.log("WatchSignalsToken (WST) balance of the WatchCDP Pool should be 1000")
 
     /// [Log]
