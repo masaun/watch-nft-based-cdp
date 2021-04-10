@@ -61,6 +61,7 @@ async function main() {
 
     console.log("\n------------- Process of the WatchCDP contract -------------");
     await createWatchNFT()
+    await saveWatchPrice()
     await depositWatchNFTAsCollateral()
     await getLatestWatchPrice()
     await borrow()
@@ -157,6 +158,12 @@ async function createWatchNFT() {
     WATCH_NFT = event.watchNFT
     watchNFT = await WatchNFT.at(WATCH_NFT)
     console.log('=== WATCH_NFT ===', WATCH_NFT)
+}
+
+async function saveWatchPrice() {
+    console.log("Save current watch price of the Watch NFT");
+    const borrower = deployer
+    let txReceipt = await watchNFTFactory.saveWatchPrice(WATCH_NFT, { from: borrower })
 }
 
 async function getLatestWatchPrice() {
