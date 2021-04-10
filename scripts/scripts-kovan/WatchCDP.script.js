@@ -61,9 +61,9 @@ async function main() {
 
     console.log("\n------------- Process of the WatchCDP contract -------------");
     await createWatchNFT()
-    await saveWatchPrice()
     await depositWatchNFTAsCollateral()
     await getLatestWatchPrice()
+    await saveWatchPrice()  /// [Note]: This method is located to here because of "time lag" to update watch price
     await borrow()
     await repay()
     await withdrawWatchNFTFromCollateral()
@@ -106,14 +106,14 @@ async function checkStateInAdvance() {
 }
 
 async function depositWatchSignalsTokenIntoWatchCDPPool() {
-    let _wstBalanceOfWatchCDP = await watchSignalsToken.balanceOf(deployer)
+    let _wstBalanceOfWatchCDP = await watchSignalsToken.balanceOf(WATCH_CDP)
     let wstBalanceOfWatchCDP = web3.utils.fromWei(String(_wstBalanceOfWatchCDP), 'ether')
     console.log('=== wstBalanceOfWatchCDP ===', wstBalanceOfWatchCDP)
 
     if (wstBalanceOfWatchCDP == "0") {
         console.log("Deposit 1000 the Watch Signals Tokens (WST) into the Watch CDP Pool");
         const depositAmount = web3.utils.toWei('1000', 'ether')  /// 1000 WST
-        let txReceipt1 = await watchSignalsToken.approve(WATCH_CDP, depositAmount)
+        let txReceipt1 = await watchSignalsToken.approve(WATCH_CDP, depositAmount, { from: deployer })
         let txReceipt2 = await watchCDP.depositWatchSignalsTokenIntoPool(depositAmount, { from: deployer })
     }
 }
