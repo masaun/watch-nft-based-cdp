@@ -61,9 +61,9 @@ async function main() {
 
     console.log("\n------------- Process of the WatchCDP contract -------------");
     await createWatchNFT()
-    await getLatestWatchPrice()
     await depositWatchSignalsTokenIntoPool()
     await depositWatchNFTAsCollateral()
+    await getLatestWatchPrice()
     await borrow()
     await repay()
 }
