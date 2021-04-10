@@ -122,10 +122,18 @@ contract WatchCDP {
     }
 
     /**
-     * @notice - Withdraw a Watch NFT from collateral
+     * @notice - Withdraw a Watch NFT from collateral to owner
      */
-    function withdrawWatchNFTFromCollateral() public returns (bool) {
-        /// [Todo]:
+    function withdrawWatchNFTFromCollateral(WatchNFT _watchNFT) public returns (bool) {
+        WatchNFT watchNFT = _watchNFT;
+
+        WatchNFTFactory.Watch memory watch = watchNFTFactory.getWatch(watchNFT);
+        address watchNFTOwner = watch.owner;
+        require (msg.sender == watchNFTOwner, "Caller should be watchNFT's owner");
+
+        uint tokenId = 1;  /// [Note]: tokenID is always 1
+        watchNFT.approve(watchNFTOwner, tokenId);
+        watchNFT.transferFrom(address(this), watchNFTOwner, tokenId);
     }
     
 
