@@ -12,17 +12,19 @@ import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterfa
 contract WatchNFTFactory {
     using SafeMath for uint;    
 
+    uint currentWatchId;
+    address WATCH_SIGNALS;
+    address[] public watchNFTs;  /// Created-Watch NFT contract addresses
+
     struct Watch {
+        uint watchId;
         WatchNFT watchNFT;
         address owner;
         uint watchPrice;
     }
     Watch[] watchs;
 
-    address[] public watchNFTs;  /// Created-Watch NFT contract addresses
-    address WATCH_SIGNALS;
-
-    event WatchNFTCreated(address indexed watchNFT);
+    event WatchNFTCreated(uint watchId, address indexed watchNFT);
 
     WatchSignalsLuxuryWatchPriceOracle public watchSignals;
     LinkTokenInterface public linkToken;    
@@ -51,21 +53,19 @@ contract WatchNFTFactory {
 
         watchNFTs.push(address(watchNFT));
 
-        /// Save the latest watch price by using chainlink oracle
+        /// Update the latest watch price by using chainlink oracle
         updateWatchPrice(_oracle, _jobId, _refNumber);
-        uint _latestWatchPrice = getLatestWatchPrice();  /// e.g). 22188000000000 ($221880)
 
-        /// Convert unit of the latest watch price
-        uint latestWatchPrice = _latestWatchPrice.div(100000000).mul(1e18);  /// $221880 * 1e18
-
+        currentWatchId++;
         Watch memory watch = Watch({
+            watchId: currentWatchId,
             watchNFT: watchNFT,
             owner: _initialOwner,
-            watchPrice: latestWatchPrice
+            watchPrice: 0  /// [Note]: When a Watch NFT is created, "0" is saved into the property of watch price. Because a watch price from oracle has "time lag". 
         });
         watchs.push(watch);
 
-        emit WatchNFTCreated(address(watchNFT));
+        emit WatchNFTCreated(currentWatchId, address(watchNFT));
     }
 
     /**
@@ -78,6 +78,23 @@ contract WatchNFTFactory {
 
         linkToken.approve(WATCH_SIGNALS, linkAmount);
         watchSignals.requestPrice(_oracle, _jobId, _refNumber);
+    }
+
+    /** 
+     * @notice - Save current watch's price
+     */
+    function saveWatchPrice(WatchNFT _watchNFT) public returns (bool) {
+        /// Retrieve the latest watch price by using chainlink oracle
+        uint _latestWatchPrice = getLatestWatchPrice();  /// e.g). 22188000000000 ($221880)
+
+        /// Convert unit of the latest watch price
+        uint latestWatchPrice = _latestWatchPrice.div(100000000).mul(1e18);  /// $221880 * 1e18        
+
+        /// Save the latest watch price by using chainlink oracle
+        uint _watchId = getWatch(_watchNFT).watchId;
+        uint index = _watchId.div(1);
+        Watch storage watch = watchs[index];
+        watch.watchPrice = latestWatchPrice;
     }
 
     /**
