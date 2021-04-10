@@ -63,6 +63,7 @@ async function main() {
     await createWatchNFT()
     await depositWatchNFTAsCollateral()
     await getLatestWatchPrice()
+    await saveWatchPrice()  /// [Note]: This method is located to here because of "time lag" to update watch price
     await borrow()
     await repay()
     await withdrawWatchNFTFromCollateral()
@@ -105,14 +106,14 @@ async function checkStateInAdvance() {
 }
 
 async function depositWatchSignalsTokenIntoWatchCDPPool() {
-    let _wstBalanceOfWatchCDP = await watchSignalsToken.balanceOf(deployer)
+    let _wstBalanceOfWatchCDP = await watchSignalsToken.balanceOf(WATCH_CDP)
     let wstBalanceOfWatchCDP = web3.utils.fromWei(String(_wstBalanceOfWatchCDP), 'ether')
     console.log('=== wstBalanceOfWatchCDP ===', wstBalanceOfWatchCDP)
 
     if (wstBalanceOfWatchCDP == "0") {
         console.log("Deposit 1000 the Watch Signals Tokens (WST) into the Watch CDP Pool");
         const depositAmount = web3.utils.toWei('1000', 'ether')  /// 1000 WST
-        let txReceipt1 = await watchSignalsToken.approve(WATCH_CDP, depositAmount)
+        let txReceipt1 = await watchSignalsToken.approve(WATCH_CDP, depositAmount, { from: deployer })
         let txReceipt2 = await watchCDP.depositWatchSignalsTokenIntoPool(depositAmount, { from: deployer })
     }
 }
@@ -124,7 +125,7 @@ async function checkWstBalanceInAdvance() {
     let _wstBalanceOfWatchCDP = await watchSignalsToken.balanceOf(WATCH_CDP)
     let wstBalanceOfWatchCDP = web3.utils.fromWei(String(_wstBalanceOfWatchCDP), 'ether')
 
-    console.log("WatchSignalsToken (WST) balance of deployer should be 0")
+    console.log("WatchSignalsToken (WST) balance of deployer should be 1000")
     console.log("WatchSignalsToken (WST) balance of the WatchCDP Pool should be 1000")
 
     /// [Log]
@@ -157,6 +158,12 @@ async function createWatchNFT() {
     WATCH_NFT = event.watchNFT
     watchNFT = await WatchNFT.at(WATCH_NFT)
     console.log('=== WATCH_NFT ===', WATCH_NFT)
+}
+
+async function saveWatchPrice() {
+    console.log("Save current watch price of the Watch NFT");
+    const borrower = deployer
+    let txReceipt = await watchNFTFactory.saveWatchPrice(WATCH_NFT, { from: borrower })
 }
 
 async function getLatestWatchPrice() {
