@@ -67,9 +67,21 @@ $ ganache-cli -d --fork https://kovan.infura.io/v3/{YOUR INFURA KEY OF KOVAN}
 <br>
 
 ### ④ Scripts
+- Main
+```
+$ npm run script:WatchCDP
+
+$ npm run script:WatchCDP-repay
+```
+
+
+- Sub
 ```
 $ npm run script:WatchSignals
 ```
+
+
+
 
 
 <br>
