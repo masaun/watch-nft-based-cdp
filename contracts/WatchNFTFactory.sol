@@ -2,12 +2,15 @@
 pragma solidity 0.6.12;
 pragma experimental ABIEncoderV2;
 
+import { SafeMath } from "@openzeppelin/contracts/math/SafeMath.sol";
+
 import { WatchSignalsLuxuryWatchPriceOracle } from "./WatchSignalsLuxuryWatchPriceOracle.sol";
 import { WatchNFT } from "./WatchNFT.sol";
 import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterface.sol";
 
 
 contract WatchNFTFactory {
+    using SafeMath for uint;    
 
     struct Watch {
         WatchNFT watchNFT;
@@ -50,7 +53,11 @@ contract WatchNFTFactory {
 
         /// Save the latest watch price by using chainlink oracle
         updateWatchPrice(_oracle, _jobId, _refNumber);
-        uint latestWatchPrice = getLatestWatchPrice();
+        uint _latestWatchPrice = getLatestWatchPrice();  /// e.g). 22188000000000 ($221880)
+
+        /// Convert unit of the latest watch price
+        uint latestWatchPrice = _latestWatchPrice.div(100000000).mul(1e18);  /// $221880 * 1e18
+
         Watch memory watch = Watch({
             watchNFT: watchNFT,
             owner: _initialOwner,
