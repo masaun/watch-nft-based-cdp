@@ -92,7 +92,7 @@ contract WatchNFTFactory {
 
         /// Save the latest watch price by using chainlink oracle
         uint _watchId = getWatch(_watchNFT).watchId;
-        uint index = _watchId.div(1);
+        uint index = _watchId.sub(1);
         Watch storage watch = watchs[index];
         watch.watchPrice = latestWatchPrice;
     }
