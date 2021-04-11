@@ -8,11 +8,13 @@ import { WatchSignalsToken } from "./WatchSignalsToken.sol";
 import { WatchNFT } from "./WatchNFT.sol";
 import { WatchNFTFactory } from "./WatchNFTFactory.sol";
 
+import { WatchCDPCommons } from "./commons/WatchCDPCommons.sol";
+
 
 /**
  * @notice - This is the Watch CDP (Collateralized Debt Position) contract
  */
-contract WatchCDP {
+contract WatchCDP is WatchCDPCommons {
     using SafeMath for uint;
 
     uint public currentBorrowId;
@@ -20,24 +22,8 @@ contract WatchCDP {
 
     address[] public borrowers;
 
-    enum BorrowStatus { Open, Close }
-
-    struct Borrow {
-        WatchNFT watchNFT;
-        address borrower;
-        uint borrowAmount;
-        uint startBlock;   /// Block number when borrower borrowed
-        uint endBlock;
-        BorrowStatus borrowStatus;
-    }
-    Borrow[] borrows;
-
     WatchSignalsToken public watchSignalsToken;
     WatchNFTFactory public watchNFTFactory;
-
-    event Borrowed(WatchNFT watchNFT, uint borrowId, address borrower, uint borrowAmount);
-    event Repaid(WatchNFT watchNFT, uint borrowId, address borrower, uint repayAmount);    
-    event Withdraw(WatchNFT watchNFT, uint borrowId, address borrower);    
 
     constructor(WatchSignalsToken _watchSignalsToken, WatchNFTFactory _watchNFTFactory) public {
         watchSignalsToken = _watchSignalsToken;

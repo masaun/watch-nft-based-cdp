@@ -8,23 +8,15 @@ import { WatchSignalsLuxuryWatchPriceOracle } from "./WatchSignalsLuxuryWatchPri
 import { WatchNFT } from "./WatchNFT.sol";
 import { LinkTokenInterface } from "./chainlink/v0.6/interfaces/LinkTokenInterface.sol";
 
+import { WatchNFTFactoryCommons } from "./commons/WatchNFTFactoryCommons.sol";
 
-contract WatchNFTFactory {
+
+contract WatchNFTFactory is WatchNFTFactoryCommons {
     using SafeMath for uint;    
 
     uint currentWatchId;
     address WATCH_SIGNALS;
     address[] public watchNFTs;  /// Created-Watch NFT contract addresses
-
-    struct Watch {
-        uint watchId;
-        WatchNFT watchNFT;
-        address owner;
-        uint watchPrice;
-    }
-    Watch[] watchs;
-
-    event WatchNFTCreated(uint watchId, address indexed watchNFT);
 
     WatchSignalsLuxuryWatchPriceOracle public watchSignals;
     LinkTokenInterface public linkToken;    
