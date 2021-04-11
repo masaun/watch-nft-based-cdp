@@ -99,7 +99,7 @@ $ npm run script:WatchCDP-repay
 <br>
 
 ### 【Video demo】
-- Video demo for executing scripts above (on Kovan testnet):
+- Video demo for executing scripts above (on Kovan testnet):  
 https://youtu.be/W8of0SZCuAs
 
 <br>
