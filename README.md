@@ -36,6 +36,10 @@ https://infura.io/
 <br>
 
 - 2: Add `.env` to the root directory by referencing from `.env.example`
+  You need to set 3 things below in your .env:
+  - Mnemonic (MNEMONIC)
+  - Infura key (INFURA_KEY)
+  - Deployer address (DEPLOYER_ADDRESS)
 
 <br>
 
@@ -61,15 +65,22 @@ Step 1: $ npm run script:WatchCDP-borrow
 
 Step 2: $ npm run script:WatchCDP-repay
 ```
-(※ In case you want to execute again after scripts above is executed, you must migrate (Process③) again)
+(※ In case you want to execute again after scripts above is executed, you must migrate (Process③) again. Then you need to execute Step 1~2 above)
 
 
+<br>
+
+- Sub (script for calling oracle only)
+```
+$ npm run script:WatchSignalsLuxuryWatchPriceOracle
+```
+
+<br>
 
 - Sub
 ```
-$ npm run script:WatchSignals
+$ npm run script:WatchNFTFactory
 ```
-
 
 <br>
 
