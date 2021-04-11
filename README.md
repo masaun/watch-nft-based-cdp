@@ -17,6 +17,10 @@
 
 <br>
 
+- The `WatchSignals Token (WST)` is `ERC20 token` that is original token of the WatchSignals.
+
+<br>
+
 - Use the WatchSignals Luxury Watch Price Oracle via chainlink for retrieving the watch price data.
     https://docs.chain.link/docs/watchsignals#config
 
