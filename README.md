@@ -10,6 +10,7 @@
 
 ## 【Workflow】
 - Diagram of workflow
+![【Diagram】Watch NFT-based CDP (Collateralized Debt Position)](https://user-images.githubusercontent.com/19357502/114300719-a1af7a00-9afc-11eb-9d67-ea81343abdab.jpg)
 
 &nbsp;
 
