@@ -3,8 +3,8 @@
 ***
 ## 【Introduction of the Luxury Watch NFT-based CDP (Collateralized Debt Position)】
 - This is a smart contract that allow a user to borrow the WatchSignals Token (WST) by depositing the own luxury watch (Watch NFT) as a collateral.
-  - A user create a `Watch NFT` based on their own watch and its watch price.
-    - Current watch price is retrieved by the `WatchSignals Luxury Watch Price Oracle` via chainlink.
+  - A user create a `Watch NFT` based on their own luxury watch and its luxury watch price.
+    - Current luxury watch price is retrieved by the `WatchSignals Luxury Watch Price Oracle` via chainlink.
 
   - A user deposit a `Watch NFT` into the WatchCDP Pool.
 
@@ -26,6 +26,7 @@
 
 ## 【Workflow】
 - Diagram of workflow
+  (※ The WatchCDP contract is also the WatchCDP Pool)
 ![【Diagram】Watch NFT-based CDP (Collateralized Debt Position)](https://user-images.githubusercontent.com/19357502/114300719-a1af7a00-9afc-11eb-9d67-ea81343abdab.jpg)
 
 &nbsp;
@@ -107,9 +108,11 @@ $ npm run script:WatchCDP-repay
 - Arbitrum verison
   - In progress.
 
-
 <br>
 
+- The WatchCDP contract is also the WatchCDP Pool.
+
+<br>
 
 - Another Scripts (Each parts)
   - Script for calling oracle by using the WatchSignals Luxury Watch Price Oracle via chainlink

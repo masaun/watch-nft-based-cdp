@@ -124,12 +124,12 @@ async function checkWstBalanceInAdvance() {
     let _wstBalanceOfWatchCDP = await watchSignalsToken.balanceOf(WATCH_CDP)
     let wstBalanceOfWatchCDP = web3.utils.fromWei(String(_wstBalanceOfWatchCDP), 'ether')
 
-    console.log("WatchSignalsToken (WST) balance of borrower should be 1000")
-    console.log("WatchSignalsToken (WST) balance of the WatchCDP Pool should be 1000")
+    console.log("Initial WatchSignalsToken (WST) balance of borrower should be 1000")
+    console.log("Initial WatchSignalsToken (WST) balance of the WatchCDP Pool should be 1000")
 
     /// [Log]
-    console.log('=== WST balance of borrower ===', wstBalanceOfBorrower)
-    console.log('=== WST balance the WatchCDP Pool ===', wstBalanceOfWatchCDP)
+    console.log('=== Initial WST balance of borrower ===', wstBalanceOfBorrower)
+    console.log('=== Initial WST balance the WatchCDP Pool ===', wstBalanceOfWatchCDP)
 }
 
 async function createWatchNFT() {
