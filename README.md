@@ -1,8 +1,8 @@
 # Watch NFT-based CDP (Collateralized Debt Position)
 
 ***
-## 【Introduction of the Watch NFT-based CDP (Collateralized Debt Position)】
-- This is a smart contract that allow a user to borrow the WatchSignals Token (WST) by depositing the own watch (Watch NFT) as a collateral.
+## 【Introduction of the Luxury Watch NFT-based CDP (Collateralized Debt Position)】
+- This is a smart contract that allow a user to borrow the WatchSignals Token (WST) by depositing the own luxury watch (Watch NFT) as a collateral.
   - A user create a `Watch NFT` based on their own watch and its watch price.
     - Current watch price is retrieved by the `WatchSignals Luxury Watch Price Oracle` via chainlink.
 
@@ -97,6 +97,11 @@ $ npm run script:WatchCDP-repay
 
 <br>
 
+### 【Video demo】
+- Video demo for executing scripts above (on Kovan testnet):
+
+
+<br>
 
 ### 【Remarks】
 - Arbitrum verison
