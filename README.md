@@ -1,10 +1,10 @@
 # Watch NFT-based CDP (Collateralized Debt Position)
 
 ***
-## 【Introduction of the Watch NFT-based CDP (Collateralized Debt Position)】
-- This is a smart contract that allow a user to borrow the WatchSignals Token (WST) by depositing the own watch (Watch NFT) as a collateral.
-  - A user create a `Watch NFT` based on their own watch and its watch price.
-    - Current watch price is retrieved by the `WatchSignals Luxury Watch Price Oracle` via chainlink.
+## 【Introduction of the Luxury Watch NFT-based CDP (Collateralized Debt Position)】
+- This is a smart contract that allow a user to borrow the WatchSignals Token (WST) by depositing the own luxury watch (Watch NFT) as a collateral.
+  - A user create a `Watch NFT` based on their own luxury watch and its luxury watch price.
+    - Current luxury watch price is retrieved by the `WatchSignals Luxury Watch Price Oracle` via chainlink.
 
   - A user deposit a `Watch NFT` into the WatchCDP Pool.
 
@@ -26,6 +26,7 @@
 
 ## 【Workflow】
 - Diagram of workflow
+  (※ The WatchCDP contract is also the WatchCDP Pool)
 ![【Diagram】Watch NFT-based CDP (Collateralized Debt Position)](https://user-images.githubusercontent.com/19357502/114300719-a1af7a00-9afc-11eb-9d67-ea81343abdab.jpg)
 
 &nbsp;
@@ -76,14 +77,19 @@ $ npm run migrate:kovan
 <br>
 
 ### ④ Scripts (for testing whole process) on Kovan 
-- 1: Process between creating a Watch NFT & deposit it as a collateral and borrow
+- 1: Process are that:
+  - Creating a Watch NFT
+  - Deposit a Watch NFT as a collateral into the WatchCDP Pool.
+  - Borrow the WatchSignals Token (WST)
 ```
 $ npm run script:WatchCDP-borrow
 ```
 
 <br>
 
-- 2: Process between repay and withdraw
+- 2: Process are that:
+  - Repay the WatchSignals Token (include `principal + interest` ) to the WatchCDP Pool. 
+  - Withdraw the deposited-watch NFT from the WatchCDP Pool. 
 ```
 $ npm run script:WatchCDP-repay
 ```
@@ -92,14 +98,21 @@ $ npm run script:WatchCDP-repay
 
 <br>
 
+### 【Video demo】
+- Video demo for executing scripts above (on Kovan testnet):
+
+
+<br>
 
 ### 【Remarks】
 - Arbitrum verison
   - In progress.
 
-
 <br>
 
+- The WatchCDP contract is also the WatchCDP Pool.
+
+<br>
 
 - Another Scripts (Each parts)
   - Script for calling oracle by using the WatchSignals Luxury Watch Price Oracle via chainlink
@@ -114,12 +127,16 @@ $ npm run script:WatchCDP-repay
 
 ## 【References】
 - WatchSignals Luxury Watch Price Oracle via chainlink
-https://docs.chain.link/docs/watchsignals#config
-
+  - Article: https://watchsignals.com/watch-blog/luxury-watch-data-on-blockchain-chainlink.html
+  - Doc: https://docs.chain.link/docs/watchsignals#config
 
 - Chainlink
   - @chainlink/contracts (v0.1.6) => include solidity v0.6 based package
     https://www.npmjs.com/package/@chainlink/contracts
+
+- Arbitrum
+  - Public Testnet（Kovan => Arbitrum）: https://developer.offchainlabs.com/docs/public_testnet
+  - How to deploy on Arbitrum by using Truffle: https://developer.offchainlabs.com/docs/contract_deployment
 
 - Chainlink Virtual Hackathon Spring 2021
 https://chainlink-2021.devpost.com/

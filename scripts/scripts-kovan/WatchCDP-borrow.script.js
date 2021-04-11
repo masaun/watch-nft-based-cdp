@@ -118,18 +118,18 @@ async function depositWatchSignalsTokenIntoWatchCDPPool() {
 }
 
 async function checkWstBalanceInAdvance() {
-    let _wstBalanceOfDeployer = await watchSignalsToken.balanceOf(deployer)
-    let wstBalanceOfDeployer = web3.utils.fromWei(String(_wstBalanceOfDeployer), 'ether')
+    let _wstBalanceOfBorrower = await watchSignalsToken.balanceOf(borrower)
+    let wstBalanceOfBorrower = web3.utils.fromWei(String(_wstBalanceOfBorrower), 'ether')
 
     let _wstBalanceOfWatchCDP = await watchSignalsToken.balanceOf(WATCH_CDP)
     let wstBalanceOfWatchCDP = web3.utils.fromWei(String(_wstBalanceOfWatchCDP), 'ether')
 
-    console.log("WatchSignalsToken (WST) balance of deployer should be 1000")
-    console.log("WatchSignalsToken (WST) balance of the WatchCDP Pool should be 1000")
+    console.log("Initial WatchSignalsToken (WST) balance of borrower should be 1000")
+    console.log("Initial WatchSignalsToken (WST) balance of the WatchCDP Pool should be 1000")
 
     /// [Log]
-    console.log('=== WST balance of deployer ===', wstBalanceOfDeployer)
-    console.log('=== WST balance the WatchCDP Pool ===', wstBalanceOfWatchCDP)
+    console.log('=== Initial WST balance of borrower ===', wstBalanceOfBorrower)
+    console.log('=== Initial WST balance the WatchCDP Pool ===', wstBalanceOfWatchCDP)
 }
 
 async function createWatchNFT() {
@@ -142,7 +142,7 @@ async function createWatchNFT() {
     /// Request price
     const name = "Richard Mille RM 11-01" 
     const symbol = "RM1101"
-    const initialOwner = deployer
+    const initialOwner = borrower
     const watchURI = "https://example.com/RM1101"
 
     const oracle = contractAddressList["Kovan"]["Chainlink"]["WatchSignals"]["Oracle"]
@@ -161,7 +161,6 @@ async function createWatchNFT() {
 
 async function saveWatchPrice() {
     console.log("Save current watch price of the Watch NFT");
-    const borrower = deployer
     let txReceipt = await watchNFTFactory.saveWatchPrice(WATCH_NFT, { from: borrower })
 }
 
@@ -198,7 +197,6 @@ async function borrow() {
 // async function repay() {
 //     console.log("Repay the Watch Signals Tokens (WST)");
 //     const borrowId = 1
-//     const borrower = deployer
 //     let repayAmount = await watchCDP.getRepayAmount(borrowId)
 //     console.log('=== repayAmount ===', web3.utils.fromWei(String(repayAmount), 'ether'))
 
@@ -208,7 +206,6 @@ async function borrow() {
 
 // async function withdrawWatchNFTFromCollateral() {
 //     console.log("Withdraw a Watch NFT from collateral to owner");
-//     const borrower = deployer
 //     const tokenId = 1
 //     let txReceipt = await watchCDP.withdrawWatchNFTFromCollateral(WATCH_NFT, { from: borrower })
 
