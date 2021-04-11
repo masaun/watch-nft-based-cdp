@@ -2,7 +2,7 @@ require('dotenv').config();
 //const Tx = require('ethereumjs-tx').Transaction;
 
 const Web3 = require('web3');
-const provider = new Web3.providers.HttpProvider(`https://kovan.infura.io/v3/${ process.env.INFURA_KEY }`);
+const provider = new Web3.providers.HttpProvider(`https://kovan.infura.io/v3/${ process.env.INFURA_KEY }`)
 const web3 = new Web3(provider);
 
 /// Import deployed-addresses
@@ -32,6 +32,7 @@ let WATCH_NFT
 
 /// Acccounts
 let deployer
+let borrower
 
 /// Global contract instance
 let watchCDP
@@ -94,15 +95,13 @@ async function setUpSmartContracts() {
 }
 
 async function checkStateInAdvance() {
-    console.log("Deployer address should be assigned")
+    console.log("Wallet address should be assigned into deployer and borrower")
     deployer = process.env.DEPLOYER_ADDRESS
-
-    //console.log("WatchSignalsToken (WST) balance of deployer should be 1000")
-    //let wstBalance = await watchSignalsToken.balanceOf(deployer)
+    borrower = process.env.DEPLOYER_ADDRESS
 
     /// [Log]
     console.log('=== deployer ===', deployer)
-    //console.log('=== WST balance of deployer ===', web3.utils.fromWei(String(wstBalance), 'ether'))
+    console.log('=== borrower ===', borrower)
 }
 
 async function depositWatchSignalsTokenIntoWatchCDPPool() {
@@ -173,7 +172,6 @@ async function getLatestWatchPrice() {
 
 async function depositWatchNFTAsCollateral() {
     console.log("Deposit a Watch NFT as collateral");
-    const borrower = deployer
     const tokenId = 1
     let txReceipt1 = await watchNFT.approve(WATCH_CDP, tokenId)
     let txReceipt2 = await watchCDP.depositWatchNFTAsCollateral(WATCH_NFT, { from: borrower })
@@ -187,7 +185,6 @@ async function depositWatchNFTAsCollateral() {
 
 async function borrow() {
     console.log("Borrow the Watch Signals Tokens (WST)");
-    const borrower = deployer
     const borrowAmount = web3.utils.toWei('100', 'ether')  /// 100 WST
     let txReceipt = await watchCDP.borrow(borrowAmount, WATCH_NFT, { from: borrower })
 
