@@ -9,7 +9,7 @@
   - A user deposit a `Watch NFT` into the WatchCDP Pool.
 
   - By depositing a `Watch NFT`, a user can borrow the WatchSignals Token (WST) from the WatchCDP Pool.
-    - A user can borrow the WatchSignals Token (WST) until 60% of watch price
+    - A user can borrow WST `until 60% of the watch price of the collateralized-watch NFT` .
     - This depositing (collateral) and borrowing structure is simlar to MakerDAO's CDP (MCD).
 
   - When a user above repay, a user repay the WatchSignals Token (include `principal + interest` ) to the WatchCDP Pool. 
@@ -27,7 +27,7 @@
 ## 【Workflow】
 - Diagram of workflow
   (※ The WatchCDP contract is also the WatchCDP Pool)
-![【Diagram】Watch NFT-based CDP (Collateralized Debt Position)](https://user-images.githubusercontent.com/19357502/114300719-a1af7a00-9afc-11eb-9d67-ea81343abdab.jpg)
+![【Diagram】Watch NFT-based CDP (Collateralized Debt Position)](https://user-images.githubusercontent.com/19357502/114325486-541e2600-9b6b-11eb-828f-b85976da759b.jpg)
 
 &nbsp;
 
